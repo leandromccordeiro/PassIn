@@ -1,6 +1,6 @@
 ﻿using PassIn.Communication.Requests;
 using PassIn.Infrastructure;
-using System.Net.Http.Headers;
+using PassIn.Infrastructure.Entities;
 
 namespace PassIn.Application.UseCases.Events;
 public class RegisterEventsUseCase
@@ -9,7 +9,8 @@ public class RegisterEventsUseCase
     {
         Validate(request);
         var dbContext = new PassInDbContext();
-        var entity = new Infrastructure.Entities.Event
+        var entity = new Event
+
         {
             Title = request.Title,
             Details = request.Details,
@@ -25,18 +26,18 @@ public class RegisterEventsUseCase
     {
         if(request.MaximumAttendees <= 0)
         {
-            throw new ArgumentException("Maximum attendes is ivanlid");
+            throw new PassInException("Maximum attendes is invalid");
         }
 
         if(string.IsNullOrWhiteSpace(request.Title))
         {
-            throw new ArgumentException("Title can not be null");
+            throw new PassInException("Title can not be null");
         }
         
         
         if(string.IsNullOrWhiteSpace(request.Details))
         {
-            throw new ArgumentException("Details can not be null");
+            throw new PassInException("Details can not be null");
         }
     }
 }
